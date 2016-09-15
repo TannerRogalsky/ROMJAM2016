@@ -28,3 +28,6 @@
 [submodule "lib/binser"]
 	path = lib/binser
 	url = https://github.com/bakpakin/binser.git
+[submodule "lib/cpml"]
+	path = lib/cpml
+	url = https://github.com/excessive/cpml.git
