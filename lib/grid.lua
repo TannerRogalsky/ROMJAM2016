@@ -57,7 +57,7 @@ function Grid:rotate(angle)
 end
 
 function Grid:rotate_to(angle)
-  assert(angle % 90 == 0)
+  assert(angle % 90 == 0, 'Angle is ' .. angle)
 
   self.orientation = angle
   return self.orientation

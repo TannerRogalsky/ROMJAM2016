@@ -33,6 +33,7 @@ CPML = require("lib.cpml")
 
 Base = require("base")
 Game = require("game")
+Tetromino = require('tetromino')
 
 Direction = require("direction")
 
