@@ -197,6 +197,13 @@ function Tetromino:move(dx, dy)
   self.y = self.y + dy
   self.polygon:move(dx, dy)
 
+  for i,creature in ipairs(game.creatures) do
+    if self.polygon:collidesWith(creature.collider) then
+      creature:gotoState('Caught')
+      creature:move(0, dy)
+    end
+  end
+
   if self.polygon:collidesWith(game.left_bound) then
     self:move(SIZE, 0)
   elseif self.polygon:collidesWith(game.right_bound) then

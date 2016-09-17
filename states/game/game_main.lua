@@ -35,6 +35,12 @@ function Main:enteredState()
 
   self.set_pieces = {}
 
+  self.creatures = {}
+
+  for i=1,1 do
+    table.insert(self.creatures, SwimmingCreature:new(-SIZE * i * love.math.random(), i * SIZE * 10, SIZE * 2, SIZE))
+  end
+
   g.setFont(self.preloaded_fonts["04b03_16"])
 end
 
@@ -46,6 +52,10 @@ function Main:update(dt)
     self.current:gotoState('Falling')
   else
     self.current:update(dt)
+  end
+
+  for i,creature in ipairs(self.creatures) do
+    creature:update(dt)
   end
 end
 
@@ -77,6 +87,10 @@ function Main:draw()
   end
 
   self.current:draw()
+
+  for i,creature in ipairs(self.creatures) do
+    creature:draw()
+  end
 
   self.floor:draw()
   self.left_bound:draw()
