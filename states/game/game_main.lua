@@ -36,9 +36,11 @@ function Main:enteredState()
   self.set_pieces = {}
 
   self.creatures = {}
+  self.fossils = {}
 
   for i=1,1 do
-    table.insert(self.creatures, SwimmingCreature:new(-SIZE * i * love.math.random(), i * SIZE * 10, SIZE * 2, SIZE))
+    local creature = SwimmingCreature:new(-SIZE * i * love.math.random(), i * SIZE * 10, SIZE * 2, SIZE)
+    self.creatures[creature.id] = creature
   end
 
   g.setFont(self.preloaded_fonts["04b03_16"])
@@ -54,7 +56,7 @@ function Main:update(dt)
     self.current:update(dt)
   end
 
-  for i,creature in ipairs(self.creatures) do
+  for id,creature in pairs(self.creatures) do
     creature:update(dt)
   end
 end
@@ -88,7 +90,7 @@ function Main:draw()
 
   self.current:draw()
 
-  for i,creature in ipairs(self.creatures) do
+  for id,creature in pairs(self.creatures) do
     creature:draw()
   end
 
@@ -99,6 +101,8 @@ function Main:draw()
   g.pop()
 
   self.camera:unset()
+
+  g.print('Fossils: ' .. #self.fossils)
 end
 
 function Main:mousepressed(x, y, button, isTouch)
