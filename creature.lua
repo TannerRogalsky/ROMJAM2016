@@ -1,6 +1,7 @@
 local Creature = class('Creature', Base):include(Stateful)
 
 function Creature:initialize(x, y, w, h)
+  Base.initialize(self)
   self.x, self.y = x, y
   self.w, self.h = w, h
 
@@ -16,6 +17,10 @@ function Creature:draw()
   g.setColor(0, 0, 255)
   self.collider:draw()
   g.pop()
+end
+
+function Creature:collidesWith(other)
+  return self.collider:collidesWith(other)
 end
 
 function Creature:move(dx, dy)

@@ -153,6 +153,7 @@ local types = {
 local typeof = type
 
 function Tetromino:initialize(type, size, x, y)
+  Base.initialize(self)
   assert(types[type])
   assert(typeof(size) == 'number')
 
@@ -167,6 +168,9 @@ function Tetromino:initialize(type, size, x, y)
   self.polygon:move(x, y)
 
   self.image = game.preloaded_images[self.type .. '.png']
+
+  self.caught_creatures = {}
+  self.escaped_creatures = {}
 
   self.x, self.y = x, y
 end
@@ -197,10 +201,17 @@ function Tetromino:move(dx, dy)
   self.y = self.y + dy
   self.polygon:move(dx, dy)
 
-  for i,creature in ipairs(game.creatures) do
-    if self.polygon:collidesWith(creature.collider) then
-      creature:gotoState('Caught')
+  for id,creature in pairs(self.caught_creatures) do
+    creature:move(0, dy)
+  end
+
+  for id,creature in pairs(game.creatures) do
+    if not self.caught_creatures[id]
+      and not self.escaped_creatures[id]
+      and creature:collidesWith(self.polygon) then
+      creature:gotoState('Caught', self)
       creature:move(0, dy)
+      self.caught_creatures[creature.id] = creature
     end
   end
 
