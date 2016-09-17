@@ -45,6 +45,8 @@ function Main:enteredState()
 end
 
 function Main:update(dt)
+  Music.static.update()
+
   if self.current.set then
     table.insert(self.set_pieces, self.current)
 
