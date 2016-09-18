@@ -8,7 +8,15 @@ function Set:enteredState()
     game.creatures[id] = nil
     creature:gotoState('Dead')
     creature:moveTo(self.polygon:center())
+
+    if creature:isInstanceOf(SwimmingCreature) then
+      game:spawnSwimmingCreature()
+    end
   end
+
+  local x, y = PlantCreature.findSpawnLocation(SIZE, game.grid, game.set_pieces)
+  local creature = PlantCreature:new(x, y, SIZE, SIZE)
+  game.creatures[creature.id] = creature
 end
 
 function Set:draw()
