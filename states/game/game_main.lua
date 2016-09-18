@@ -53,7 +53,7 @@ end
 
 function Main:spawnSwimmingCreature()
   local start_col = love.math.random(self.grid.height - 5) + 5
-  local creature = SwimmingCreature:new(self.grid.width / 2 * SIZE, start_col * SIZE, SIZE * 2, SIZE)
+  local creature = SwimmingCreature:new(self.grid.width / 2 * SIZE, start_col * SIZE, SIZE)
   self.creatures[creature.id] = creature
 end
 

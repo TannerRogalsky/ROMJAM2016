@@ -19,14 +19,15 @@ local images = {
   }
 }
 
-function SwimmingCreature:initialize(x, y, w, h)
-  Creature.initialize(self, x, y, w, h)
-
-  self.time_alive = love.math.random(100)
-
+function SwimmingCreature:initialize(x, y, size)
   local img = images[love.math.random(#images)]
   self.alive_image = game.preloaded_images[img.alive]
   self.dead_image = game.preloaded_images[img.dead]
+
+  local iw, ih = self.alive_image:getDimensions()
+  Creature.initialize(self, x, y, iw / size * 3, ih / size * 3)
+
+  self.time_alive = love.math.random(100)
 
   self.dx, self.dy = 0, 0
 
