@@ -38,6 +38,8 @@ Creature = require('creature')
 SwimmingCreature = require('swimming_creature')
 PlantCreature = require('plant_creature')
 
+MusicManager = require('music_manager')
+
 Direction = require("direction")
 
 local function require_all(directory)
