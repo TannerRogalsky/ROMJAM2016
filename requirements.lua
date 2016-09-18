@@ -36,7 +36,8 @@ Game = require("game")
 Tetromino = require('tetromino')
 Creature = require('creature')
 SwimmingCreature = require('swimming_creature')
-Music = require('music')
+
+MusicManager = require('music_manager')
 
 Direction = require("direction")
 

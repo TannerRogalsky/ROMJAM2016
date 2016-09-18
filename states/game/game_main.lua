@@ -44,11 +44,11 @@ function Main:enteredState()
   end
 
   g.setFont(self.preloaded_fonts["04b03_16"])
+
+  self.musicManager = MusicManager:new()
 end
 
 function Main:update(dt)
-  Music.static.update()
-
   if self.current.set then
     table.insert(self.set_pieces, self.current)
 
@@ -61,6 +61,8 @@ function Main:update(dt)
   for id,creature in pairs(self.creatures) do
     creature:update(dt)
   end
+
+  self.musicManager:update(self.set_pieces)
 end
 
 function Main:draw()
