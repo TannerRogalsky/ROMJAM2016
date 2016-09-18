@@ -22,26 +22,20 @@ local function getHighestSetPiece(setPieces)
 end
 
 local function shouldPlayMusicTrack(musicTrack, highestSetPiece)
-  return musicTrack.heightThreshold <= highestSetPiece
+  return musicTrack.heightStartThreshold <= highestSetPiece and
+    highestSetPiece <= musicTrack.heightEndThreshold 
 end
 
-local function getMusicTracksToPlay(musicTracks, highestSetPiece)
-  local musicTracksToPlay = {}
-
+local function playMusicTracks(musicTracks, highestSetPiece)
   for musicTrackNameKey, musicTrackName in pairs(musicTracks.TRACK_NAMES) do
     local musicTrack = musicTracks[musicTrackName]
+    musicTrack:update()
 
     if shouldPlayMusicTrack(musicTrack, highestSetPiece) then
-      table.insert(musicTracksToPlay, musicTrackName)
+      musicTrack:play()
+    else
+      musicTrack:stop()
     end
-  end
-
-  return musicTracksToPlay
-end
-
-local function playMusicTracks(musicTracks, musicTracksToPlay)
-  for index, musicTrackName in ipairs(musicTracksToPlay) do
-    musicTracks[musicTrackName]:play()
   end
 end
 
@@ -62,9 +56,8 @@ end
  
 function MusicManager:update(setPieces)
   local highestSetPiece = getHighestSetPiece(setPieces)
-  local musicTracksToPlay = getMusicTracksToPlay(self.tracks, highestSetPiece)
-
-  playMusicTracks(self.tracks, musicTracksToPlay)
+  
+  playMusicTracks(self.tracks, highestSetPiece)
 end
 
 return MusicManager
