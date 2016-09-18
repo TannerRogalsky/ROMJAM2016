@@ -24,24 +24,20 @@ end
 function Set:draw()
   local x, y = self.polygon:center()
   local iw, ih = self.image:getDimensions()
+  local cell_width = iw / 40
+  local scale = self.size * cell_width / iw
   if self.type == 'I' then
-    local scale = self.size * 5 / iw
-    g.draw(self.image, x, y, self.orientation, scale, scale, iw / 2 - self.size * 2, ih / 2)
+    g.draw(self.image, x, y, self.orientation, scale, scale, iw * 0.4, ih * 0.5)
   elseif self.type == 'T' then
-    local scale = self.size * 5 / iw
-    g.draw(self.image, x, y, self.orientation, scale, scale, iw / 2, ih / 2 + self.size)
+    g.draw(self.image, x, y, self.orientation, scale, scale, iw * 0.5, ih * 0.55)
   elseif self.type == 'S' then
-    local scale = self.size * 4 / iw
-    g.draw(self.image, x, y, self.orientation, scale, scale, iw / 2 - self.size * 2, ih / 2)
+    g.draw(self.image, x, y, self.orientation, scale, scale, iw * 0.375, ih * 0.5)
   elseif self.type == 'J' then
-    local scale = self.size * 5 / iw
-    g.draw(self.image, x, y, self.orientation, scale, scale, iw / 2 - self.size, ih / 2 + self.size)
+    g.draw(self.image, x, y, self.orientation, scale, scale, iw * 0.45, ih * 0.55)
   elseif self.type == 'L' then
-    local scale = self.size * 5 / iw
-    g.draw(self.image, x, y, self.orientation, scale, scale, iw / 2 + self.size, ih / 2 + self.size)
+    g.draw(self.image, x, y, self.orientation, scale, scale, iw * 0.55, ih * 0.55)
   elseif self.type == 'O' then
-    local scale = self.size * 4 / iw
-    g.draw(self.image, x, y, self.orientation, scale, scale, iw / 2, ih / 2)
+    g.draw(self.image, x, y, self.orientation, scale, scale, iw * 0.5, ih * 0.5)
   end
 
   for id,creature in pairs(self.caught_creatures) do
