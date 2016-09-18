@@ -39,6 +39,7 @@ SwimmingCreature = require('swimming_creature')
 PlantCreature = require('plant_creature')
 
 MusicManager = require('music_manager')
+SoundManager = require('sound_manager')
 
 Direction = require("direction")
 

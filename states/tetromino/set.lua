@@ -17,6 +17,8 @@ function Set:enteredState()
   local x, y = PlantCreature.findSpawnLocation(SIZE, game.grid, game.set_pieces)
   local creature = PlantCreature:new(x, y, SIZE, SIZE)
   game.creatures[creature.id] = creature
+
+  game.soundManager:playSound(game.soundManager.SFX.PIECE_IMPACT)
 end
 
 function Set:draw()

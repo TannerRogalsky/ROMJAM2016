@@ -47,8 +47,6 @@ function Main:enteredState()
   self:spawnPlantCreature()
 
   g.setFont(self.preloaded_fonts["04b03_16"])
-
-  self.musicManager = MusicManager:new()
 end
 
 function Main:spawnSwimmingCreature()
@@ -81,7 +79,7 @@ function Main:update(dt)
     creature:update(dt)
   end
 
-  self.musicManager:update(self.set_pieces)
+  game.musicManager:update(self.set_pieces)
 end
 
 function Main:draw()
