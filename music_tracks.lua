@@ -85,15 +85,15 @@ function MusicTracks:initialize()
 
   self.baseTrackName = MUSIC_TRACK_NAMES.SILENT
 
-  self[MUSIC_TRACK_NAMES.SILENT] = MusicTrack:new('silentStem.wav', 0, MAX_WELL_DEPTH)
-  self[MUSIC_TRACK_NAMES.LEAD1]  = MusicTrack:new('lead1Stem.wav', 0, MAX_WELL_DEPTH)
-  self[MUSIC_TRACK_NAMES.LEAD2]  = MusicTrack:new('lead2Stem.wav', 20, 550) 
-  self[MUSIC_TRACK_NAMES.LEAD3]  = MusicTrack:new('lead3Stem.wav', 50, 530)
-  self[MUSIC_TRACK_NAMES.TWANG]  = MusicTrack:new('twangStem.wav', 80, 500)
-  self[MUSIC_TRACK_NAMES.BASS]   = MusicTrack:new('bassStem.wav', 110, 400)
-  self[MUSIC_TRACK_NAMES.KICK]   = MusicTrack:new('kickStem.wav', 150, 480)
-  self[MUSIC_TRACK_NAMES.TOM]    = MusicTrack:new('tomStem.wav', 180, 440)
-  self[MUSIC_TRACK_NAMES.WACKY]  = MusicTrack:new('wackyLeadStem.wav', 210, 380)
+  self[MUSIC_TRACK_NAMES.SILENT] = MusicTrack:new('silentStem.ogg', 0, MAX_WELL_DEPTH)
+  self[MUSIC_TRACK_NAMES.LEAD1]  = MusicTrack:new('lead1Stem.ogg', 0, MAX_WELL_DEPTH)
+  self[MUSIC_TRACK_NAMES.LEAD2]  = MusicTrack:new('lead2Stem.ogg', 20, 550) 
+  self[MUSIC_TRACK_NAMES.LEAD3]  = MusicTrack:new('lead3Stem.ogg', 50, 530)
+  self[MUSIC_TRACK_NAMES.TWANG]  = MusicTrack:new('twangStem.ogg', 80, 500)
+  self[MUSIC_TRACK_NAMES.BASS]   = MusicTrack:new('bassStem.ogg', 110, 400)
+  self[MUSIC_TRACK_NAMES.KICK]   = MusicTrack:new('kickStem.ogg', 150, 480)
+  self[MUSIC_TRACK_NAMES.TOM]    = MusicTrack:new('tomStem.ogg', 180, 440)
+  self[MUSIC_TRACK_NAMES.WACKY]  = MusicTrack:new('wackyLeadStem.ogg', 210, 380)
 end
 
 return MusicTracks
