@@ -1,5 +1,7 @@
 local FallingFast = Tetromino:addState('FallingFast')
 
+local function linear(t, b, c, d) return c * t / d + b end
+
 function FallingFast:enteredState()
   assert(type(self.x) == 'number')
   assert(type(self.y) == 'number')
@@ -7,10 +9,20 @@ function FallingFast:enteredState()
   self.drop_timer = cron.every(0.08, function()
     self:move(0, SIZE)
   end)
+
+  self.drop_time = 0.08
+  self.drop_timer = 0
 end
 
 function FallingFast:update(dt)
-  self.drop_timer:update(dt)
+  self.drop_timer = self.drop_timer + dt
+
+  if self.drop_timer >= self.drop_time then
+    self.drop_timer = self.drop_timer - self.drop_time
+    self.drop_time = self.drop_time * 0.99
+
+    self:move(0, SIZE)
+  end
 end
 
 function FallingFast:keyreleased(key, scancode)
