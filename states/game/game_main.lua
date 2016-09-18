@@ -76,12 +76,13 @@ function Main:draw()
 
   local D = SIZE
   local SCALE = 3
-  g.push()
+  g.push('all')
   do
     local y = math.max(0, math.min(self.current.y, (self.grid.height - 2) * SIZE - g.getHeight() / SCALE))
     g.translate(g.getWidth() / 2 - D * self.grid.width / 2 * SCALE, -y * SCALE)
   end
   g.scale(SCALE, SCALE)
+  g.setLineWidth(1 / SCALE)
   do
     local bg = game.preloaded_images['bg.png']
     g.draw(bg, 0, -SIZE * 2, 0, (self.grid.width * SIZE) / bg:getWidth())
@@ -104,9 +105,11 @@ function Main:draw()
     creature:draw()
   end
 
-  self.floor:draw()
-  self.left_bound:draw()
-  self.right_bound:draw()
+  if game.debug then
+    self.floor:draw()
+    self.left_bound:draw()
+    self.right_bound:draw()
+  end
 
   g.pop()
 
