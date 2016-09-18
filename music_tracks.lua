@@ -29,7 +29,7 @@ end
 function MusicTrack:initialize(fileName, heightStartThreshold, heightEndThreshold)
   local musicTrackPath = getPathForMusicTrack(fileName)
 
-  self.source = love.audio.newSource(musicTrackPath)
+  self.source = love.audio.newSource(musicTrackPath, 'stream')
   self.source:setLooping(true)
   self.source:setVolume(0)
   self.source:play()
