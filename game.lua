@@ -7,6 +7,9 @@ function Game:initialize(args)
     self[k] = v
   end
 
+  self.soundManager = SoundManager:new()
+  self.musicManager = MusicManager:new()
+
   self:gotoState("Loading")
 end
 
