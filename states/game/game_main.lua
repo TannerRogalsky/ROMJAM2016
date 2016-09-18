@@ -13,7 +13,7 @@ function Main:enteredState()
 
   HC = require('lib.HardonCollider')
 
-  self.grid = Grid:new(10, 60)
+  self.grid = Grid:new(10, 48)
   SIZE = g.getHeight() / (self.grid.height - 2)
 
   do
@@ -77,6 +77,10 @@ function Main:update(dt)
     self.current:update(dt)
   end
 
+  -- if self.current.y > self.camera_y then
+  --   self.camera_y = self.camera_y + dt * SIZE * 2
+  -- end
+
   for id,creature in pairs(self.creatures) do
     creature:update(dt)
   end
@@ -96,9 +100,12 @@ function Main:draw()
   end
   g.scale(SCALE, SCALE)
   g.setLineWidth(1 / SCALE)
+
   do
-    local bg = game.preloaded_images['bg.png']
-    g.draw(bg, 0, -SIZE * 2, 0, (self.grid.width * SIZE) / bg:getWidth())
+    -- local bg = game.preloaded_images['bg.png']
+    -- g.draw(bg, 0, -SIZE * 2, 0, (self.grid.width * SIZE) / bg:getWidth())
+    local bg = game.preloaded_images['bg_wide.png']
+    g.draw(bg, -g.getWidth() / SCALE / 2 + SIZE * self.grid.width / 2, -SIZE * 2, 0, (g.getWidth() / SCALE) / bg:getWidth())
   end
 
   for x, y, node in self.grid:each() do
