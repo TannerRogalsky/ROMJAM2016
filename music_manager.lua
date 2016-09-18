@@ -61,12 +61,10 @@ function MusicManager:initialize()
 end
  
 function MusicManager:update(setPieces)
-  if shouldRestartMusicTracks(self.tracks) then
-    local highestSetPiece = getHighestSetPiece(setPieces)
-    local musicTracksToPlay = getMusicTracksToPlay(self.tracks, highestSetPiece)
+  local highestSetPiece = getHighestSetPiece(setPieces)
+  local musicTracksToPlay = getMusicTracksToPlay(self.tracks, highestSetPiece)
 
-    playMusicTracks(self.tracks, musicTracksToPlay)
-  end
+  playMusicTracks(self.tracks, musicTracksToPlay)
 end
 
 return MusicManager
