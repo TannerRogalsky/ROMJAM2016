@@ -4,6 +4,8 @@ local TIME_TO_ESCAPE = 5
 function Caught:enteredState(catcher)
   self.caught_timer = 0
   self.catcher = catcher
+
+  game.soundManager:playSound(game.soundManager.SFX.SQUEAL)
 end
 
 function Caught:update(dt)
