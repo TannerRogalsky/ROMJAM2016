@@ -18,6 +18,11 @@ function MusicTrack:initialize(fileName, heightThreshold)
   self.heightThreshold = heightThreshold
 end
 
+function MusicTrack:play()
+  if game.disableAudio then return end
+  self.source:play()
+end
+
 -- MUSIC TRACKS
 local MusicTracks = class('MusicTracks', Base)
 

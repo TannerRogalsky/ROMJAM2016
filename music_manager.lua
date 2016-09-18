@@ -41,7 +41,7 @@ end
 
 local function playMusicTracks(musicTracks, musicTracksToPlay)
   for index, musicTrackName in ipairs(musicTracksToPlay) do
-    musicTracks[musicTrackName].source:play()
+    musicTracks[musicTrackName]:play()
   end
 end
 
@@ -61,10 +61,10 @@ function MusicManager:initialize()
 end
  
 function MusicManager:update(setPieces)
-  local highestSetPiece = getHighestSetPiece(setPieces)
-
   if shouldRestartMusicTracks(self.tracks) then
+    local highestSetPiece = getHighestSetPiece(setPieces)
     local musicTracksToPlay = getMusicTracksToPlay(self.tracks, highestSetPiece)
+
     playMusicTracks(self.tracks, musicTracksToPlay)
   end
 end
