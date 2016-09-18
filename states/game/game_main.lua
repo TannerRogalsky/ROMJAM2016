@@ -32,6 +32,7 @@ function Main:enteredState()
   self.left_bound = HC.rectangle(-SIZE - 1, 0, SIZE, g.getHeight())
   self.right_bound = HC.rectangle(SIZE * self.grid.width + 1, 0, SIZE, g.getHeight())
   self.floor = HC.rectangle(0, g.getHeight(), self.grid.width * SIZE, SIZE)
+  self.top = HC.rectangle(0, 0, self.grid.width * SIZE, SIZE)
 
   self.set_pieces = {}
 
@@ -58,6 +59,10 @@ function Main:update(dt)
   if self.current.set then
     table.insert(self.set_pieces, self.current)
 
+    if self.current.polygon:collidesWith(self.top) then
+      self:gotoState('Over')
+    end
+
     self.current = Tetromino:new(randomShapeType(), SIZE, 4 * SIZE, -SIZE * 3)
     self.current:gotoState('Falling')
 
@@ -79,13 +84,14 @@ function Main:draw()
   self.camera:set()
 
   local D = SIZE
-  local SCALE = 3
-  g.push()
+  local SCALE = (self.grid.height - 2) / 20
+  g.push('all')
   do
     local y = math.max(0, math.min(self.current.y, (self.grid.height - 2) * SIZE - g.getHeight() / SCALE))
     g.translate(g.getWidth() / 2 - D * self.grid.width / 2 * SCALE, -y * SCALE)
   end
   g.scale(SCALE, SCALE)
+  g.setLineWidth(1 / SCALE)
   do
     local bg = game.preloaded_images['bg.png']
     g.draw(bg, 0, -SIZE * 2, 0, (self.grid.width * SIZE) / bg:getWidth())
@@ -108,9 +114,11 @@ function Main:draw()
     creature:draw()
   end
 
-  self.floor:draw()
-  self.left_bound:draw()
-  self.right_bound:draw()
+  if game.debug then
+    self.floor:draw()
+    self.left_bound:draw()
+    self.right_bound:draw()
+  end
 
   g.pop()
 

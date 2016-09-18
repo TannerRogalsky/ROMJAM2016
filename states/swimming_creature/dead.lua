@@ -7,10 +7,8 @@ function Dead:update(dt)
 end
 
 function Dead:draw()
-  g.push('all')
-  g.setColor(0, 255, 255)
-  self.collider:draw()
-  g.pop()
+  local iw, ih = self.dead_image:getDimensions()
+  g.draw(self.dead_image, self.x, self.y, 0, self.w / iw, self.h / ih, iw / 2, ih / 2)
 end
 
 function Dead:exitedState()

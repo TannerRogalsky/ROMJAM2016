@@ -13,10 +13,15 @@ function Creature:update(dt)
 end
 
 function Creature:draw()
-  g.push('all')
-  g.setColor(0, 0, 255)
-  self.collider:draw()
-  g.pop()
+  if game.debug then
+    g.push('all')
+    g.setColor(0, 0, 255)
+    self.collider:draw()
+    g.pop()
+  end
+
+  local iw, ih = self.alive_image:getDimensions()
+  g.draw(self.alive_image, self.x, self.y, 0, self.w / iw, self.h / ih, iw / 2, ih / 2)
 end
 
 function Creature:collidesWith(other)

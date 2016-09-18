@@ -16,13 +16,6 @@ function Caught:update(dt)
   end
 end
 
-function Caught:draw()
-  g.push('all')
-  g.setColor(255, 0, 255)
-  self.collider:draw()
-  g.pop()
-end
-
 function Caught:exitedState()
   self.catcher = nil
 end
