@@ -39,20 +39,28 @@ function Main:enteredState()
   self.creatures = {}
   self.fossils = {}
 
-  for i=1,5 do
-    local creature = SwimmingCreature:new(self.grid.width / 2 * SIZE, i * SIZE * 4, SIZE * 2, SIZE)
-    self.creatures[creature.id] = creature
-  end
+  self.camera_y = 0
 
-  do
-    local x, y = PlantCreature.findSpawnLocation(SIZE, self.grid, self.set_pieces)
-    local creature = PlantCreature:new(x, y, SIZE, SIZE)
-    self.creatures[creature.id] = creature
+  for i=1,5 do
+    self:spawnSwimmingCreature()
   end
+  self:spawnPlantCreature()
 
   g.setFont(self.preloaded_fonts["04b03_16"])
 
   self.musicManager = MusicManager:new()
+end
+
+function Main:spawnSwimmingCreature()
+  local start_col = love.math.random(self.grid.height - 5) + 5
+  local creature = SwimmingCreature:new(self.grid.width / 2 * SIZE, start_col * SIZE, SIZE * 2, SIZE)
+  self.creatures[creature.id] = creature
+end
+
+function Main:spawnPlantCreature()
+  local x, y = PlantCreature.findSpawnLocation(SIZE, self.grid, self.set_pieces)
+  local creature = PlantCreature:new(x, y, SIZE, SIZE)
+  self.creatures[creature.id] = creature
 end
 
 function Main:update(dt)
@@ -65,10 +73,6 @@ function Main:update(dt)
 
     self.current = Tetromino:new(randomShapeType(), SIZE, 4 * SIZE, -SIZE * 3)
     self.current:gotoState('Falling')
-
-    local x, y = PlantCreature.findSpawnLocation(SIZE, self.grid, self.set_pieces)
-    local creature = PlantCreature:new(x, y, SIZE, SIZE)
-    self.creatures[creature.id] = creature
   else
     self.current:update(dt)
   end
@@ -87,8 +91,8 @@ function Main:draw()
   local SCALE = (self.grid.height - 2) / 20
   g.push('all')
   do
-    local y = math.max(0, math.min(self.current.y, (self.grid.height - 2) * SIZE - g.getHeight() / SCALE))
-    g.translate(g.getWidth() / 2 - D * self.grid.width / 2 * SCALE, -y * SCALE)
+    self.camera_y = math.max(0, math.min(self.current.y, (self.grid.height - 2) * SIZE - g.getHeight() / SCALE))
+    g.translate(g.getWidth() / 2 - D * self.grid.width / 2 * SCALE, -self.camera_y * SCALE)
   end
   g.scale(SCALE, SCALE)
   g.setLineWidth(1 / SCALE)
