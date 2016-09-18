@@ -29,6 +29,8 @@ function Main:enteredState()
   self.current = Tetromino:new(randomShapeType(), SIZE, 4 * SIZE, -SIZE * 2)
   self.current:gotoState('Falling')
 
+  self.next = Tetromino:new(randomShapeType(), SIZE, 4 * SIZE, -SIZE * 2)
+
   self.left_bound = HC.rectangle(-SIZE - 1, 0, SIZE, g.getHeight())
   self.right_bound = HC.rectangle(SIZE * self.grid.width + 1, 0, SIZE, g.getHeight())
   self.floor = HC.rectangle(0, g.getHeight(), self.grid.width * SIZE, SIZE)
@@ -71,8 +73,10 @@ function Main:update(dt)
       self:gotoState('Over')
     end
 
-    self.current = Tetromino:new(randomShapeType(), SIZE, 4 * SIZE, -SIZE * 3)
+    self.current = self.next
     self.current:gotoState('Falling')
+
+    self.next = Tetromino:new(randomShapeType(), SIZE, 4 * SIZE, -SIZE * 2)
   else
     self.current:update(dt)
   end
@@ -108,12 +112,15 @@ function Main:draw()
     g.draw(bg, -g.getWidth() / SCALE / 2 + SIZE * self.grid.width / 2, -SIZE * 2, 0, (g.getWidth() / SCALE) / bg:getWidth())
   end
 
+  g.push('all')
+  g.setColor(255, 255, 255, 255 * 0.3)
   for x, y, node in self.grid:each() do
     x = x - 1
     y = y - 1 - 2
     g.rectangle('line', x * D, y * D, D, D)
     -- g.print(node.index, x * D, y * D)
   end
+  g.pop()
 
   for i,tetromino in ipairs(self.set_pieces) do
     tetromino:draw()
@@ -135,7 +142,29 @@ function Main:draw()
 
   self.camera:unset()
 
-  g.print('Fossils: ' .. #self.fossils)
+  local w = g.getWidth() / 8
+  g.setColor(0, 0, 0, 125)
+  g.rectangle('fill', 0, 0, w, self.grid.height * SIZE)
+  g.setColor(255, 255, 255)
+  g.print('Fossils: ' .. #self.fossils, 5, 5)
+  local h = 5 + 20
+  for i,creature in ipairs(self.fossils) do
+    local iw, ih = creature.dead_image:getDimensions()
+    local sx, sy = creature.w / iw, creature.h / ih
+    g.draw(creature.dead_image, 5, h, 0, sx, sy)
+    h = h + creature.h
+  end
+
+  do
+    local w = g.getWidth() / 4
+    local x = w * 3
+    local y = 5
+    g.setColor(0, 0, 0, 125)
+    g.rectangle('fill', x, 0, w, self.grid.height * SIZE)
+    g.setColor(255, 255, 255)
+    g.print('Next:', x + w / 2, y)
+    g.draw(self.next.image, x, y)
+  end
 end
 
 function Main:mousepressed(x, y, button, isTouch)
@@ -148,10 +177,10 @@ function Main:keypressed(key, scancode, isrepeat)
   if self.current.keypressed then
     self.current:keypressed(key, scancode, isrepeat)
   end
-  -- self.current.orientation = self.current.orientation + math.pi / 2
-  -- for i,v in ipairs(shapes) do
-  --   v.orientation = (v.orientation + math.pi / 2) % (math.pi * 2)
-  -- end
+
+  if key == 'escape' then
+    self:gotoState('Over')
+  end
 end
 
 function Main:keyreleased(key, scancode)

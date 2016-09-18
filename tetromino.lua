@@ -219,7 +219,7 @@ function Tetromino:move(dx, dy)
   self.polygon:move(dx, dy)
 
   for id,creature in pairs(self.caught_creatures) do
-    creature:move(0, dy)
+    creature:move(dx, dy)
   end
 
   for id,creature in pairs(game.creatures) do
