@@ -2,7 +2,6 @@ local Caught = SwimmingCreature:addState('Caught')
 local TIME_TO_ESCAPE = 5
 
 function Caught:enteredState(catcher)
-  print(catcher)
   self.caught_timer = 0
   self.catcher = catcher
 end

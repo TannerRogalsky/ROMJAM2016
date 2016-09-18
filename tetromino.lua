@@ -206,11 +206,15 @@ function Tetromino:move(dx, dy)
   end
 
   for id,creature in pairs(game.creatures) do
-    if not self.caught_creatures[id]
+    if creature:isInstanceOf(SwimmingCreature)
+      and not self.caught_creatures[id]
       and not self.escaped_creatures[id]
       and creature:collidesWith(self.polygon) then
       creature:gotoState('Caught', self)
       creature:move(0, dy)
+      self.caught_creatures[creature.id] = creature
+    elseif creature:isInstanceOf(PlantCreature)
+      and creature:collidesWith(self.polygon) then
       self.caught_creatures[creature.id] = creature
     end
   end

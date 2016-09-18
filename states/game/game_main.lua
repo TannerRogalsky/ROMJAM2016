@@ -38,8 +38,14 @@ function Main:enteredState()
   self.creatures = {}
   self.fossils = {}
 
-  for i=1,1 do
-    local creature = SwimmingCreature:new(-SIZE * i * love.math.random(), i * SIZE * 10, SIZE * 2, SIZE)
+  for i=1,5 do
+    local creature = SwimmingCreature:new(self.grid.width / 2 * SIZE, i * SIZE * 4, SIZE * 2, SIZE)
+    self.creatures[creature.id] = creature
+  end
+
+  do
+    local x, y = PlantCreature.findSpawnLocation(SIZE, self.grid, self.set_pieces)
+    local creature = PlantCreature:new(x, y, SIZE, SIZE)
     self.creatures[creature.id] = creature
   end
 
@@ -50,8 +56,12 @@ function Main:update(dt)
   if self.current.set then
     table.insert(self.set_pieces, self.current)
 
-    self.current = Tetromino:new(randomShapeType(), SIZE, 4 * SIZE, -SIZE * 2)
+    self.current = Tetromino:new(randomShapeType(), SIZE, 4 * SIZE, -SIZE * 3)
     self.current:gotoState('Falling')
+
+    local x, y = PlantCreature.findSpawnLocation(SIZE, self.grid, self.set_pieces)
+    local creature = PlantCreature:new(x, y, SIZE, SIZE)
+    self.creatures[creature.id] = creature
   else
     self.current:update(dt)
   end
