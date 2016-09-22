@@ -243,7 +243,7 @@ function Tetromino:move(dx, dy)
   elseif self.polygon:collidesWith(game.floor) then
     self:move(0, -SIZE)
     self:gotoState('Set')
-  elseif collidesWithAny(self, game.set_pieces) then
+  elseif collidesWithAny(self, game.set_pieces) and not self.polygon:collidesWith(game.top) then
     self:move(-dx, -dy)
     if dy > 0 then
       self:gotoState('Set')
