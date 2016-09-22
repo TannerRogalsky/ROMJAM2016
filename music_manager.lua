@@ -23,7 +23,7 @@ end
 
 local function shouldPlayMusicTrack(musicTrack, highestSetPiece)
   return musicTrack.heightStartThreshold <= highestSetPiece and
-    highestSetPiece <= musicTrack.heightEndThreshold 
+    highestSetPiece <= musicTrack.heightEndThreshold
 end
 
 local function playMusicTracks(musicTracks, highestSetPiece)
@@ -45,18 +45,19 @@ function shouldRestartMusicTracks(musicTracks)
   return baseTrack.source:isStopped()
 end
 
--- PUBLIC 
+-- PUBLIC
 local MusicManager = class('MusicManager', Base)
 
 function MusicManager:initialize()
+  Base.initialize(self)
   WELL_HEIGHT = g.getHeight()
 
   self.tracks = MusicTracks:new()
 end
- 
+
 function MusicManager:update(setPieces)
   local highestSetPiece = getHighestSetPiece(setPieces)
-  
+
   playMusicTracks(self.tracks, highestSetPiece)
 end
 

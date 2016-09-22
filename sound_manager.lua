@@ -60,6 +60,7 @@ end
 local SoundManager = class('SoundManager', Base)
 
 function SoundManager:initialize()
+  Base.initialize(self)
   self.SFX = SFX_NAMES
 
   self.sounds = Sounds:new()
