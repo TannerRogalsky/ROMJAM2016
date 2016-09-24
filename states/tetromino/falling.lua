@@ -1,6 +1,6 @@
 local Falling = Tetromino:addState('Falling')
 local INPUT_TIME = 0.1
-local DOWN_SPEED = 50
+local DROP_INTERVAL = 1
 local lk = love.keyboard
 
 function Falling:enteredState()
@@ -9,14 +9,14 @@ function Falling:enteredState()
 
   self.input_timer = 0
 
-  self.drop_timer = cron.every(1, function()
-    -- self.y = self.y + SIZE
+  self.drop_timer = cron.every(DROP_INTERVAL, function()
     self:move(0, SIZE)
   end)
+
+  self.speed = SIZE / DROP_INTERVAL
 end
 
 function Falling:update(dt)
-  -- self.y = self.y + DOWN_SPEED * dt
   self.drop_timer:update(dt)
 
   self.input_timer = self.input_timer + dt

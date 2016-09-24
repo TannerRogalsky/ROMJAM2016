@@ -25,7 +25,7 @@ function SwimmingCreature:initialize(x, y, size)
   self.dead_image = game.preloaded_images[img.dead]
 
   local iw, ih = self.alive_image:getDimensions()
-  Creature.initialize(self, x, y, iw / size * 3, ih / size * 3)
+  Creature.initialize(self, x, y, iw * SIZE / 50, ih * SIZE / 50)
 
   self.time_alive = love.math.random(100)
 

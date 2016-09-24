@@ -1,4 +1,15 @@
 local Main = Game:addState('Main')
+local renderTetromino = require('shared.render_tetromino')
+local hsl2rgb = require('shared.hsl')
+
+local PERIODS = {
+  'Cambrian',
+  'Ordovician',
+  'Silurian',
+  'Devonian',
+  'Carboniferous',
+  'Permian',
+}
 
 -- local shape_types = {'I', 'O', 'T', 'S', 'Z', 'J', 'L'}
 local shape_types = {'I', 'O', 'T', 'S', 'J', 'L'}
@@ -14,6 +25,7 @@ function Main:enteredState()
   HC = require('lib.HardonCollider')
 
   self.grid = Grid:new(10, 48)
+  SCALE = (self.grid.height - 2) / 20 -- always only shows the standard 20 tiles on screen
   SIZE = g.getHeight() / (self.grid.height - 2)
 
   do
@@ -64,6 +76,7 @@ function Main:spawnPlantCreature()
 end
 
 function Main:update(dt)
+  -- falling tetromino
   if self.current.set then
     table.insert(self.set_pieces, self.current)
 
@@ -79,9 +92,16 @@ function Main:update(dt)
     self.current:update(dt)
   end
 
-  -- if self.current.y > self.camera_y then
-  --   self.camera_y = self.camera_y + dt * SIZE * 2
-  -- end
+  -- camera
+  if self.camera_y < self.current.y then
+    local new_camera_y = self.camera_y + self.current.speed * dt
+    local SCALE = (self.grid.height - 2) / 20
+    local well_height = (self.grid.height - 2) * SIZE - g.getHeight() / SCALE
+    self.camera_y = math.max(0, math.min(new_camera_y, well_height))
+  else
+    local new_camera_y = self.camera_y - SIZE * 50 * dt
+    self.camera_y = math.max(0, new_camera_y)
+  end
 
   for id,creature in pairs(self.creatures) do
     creature:update(dt)
@@ -94,18 +114,14 @@ function Main:draw()
   self.camera:set()
 
   local D = SIZE
-  local SCALE = (self.grid.height - 2) / 20
   g.push('all')
   do
-    self.camera_y = math.max(0, math.min(self.current.y, (self.grid.height - 2) * SIZE - g.getHeight() / SCALE))
     g.translate(g.getWidth() / 2 - D * self.grid.width / 2 * SCALE, -self.camera_y * SCALE)
   end
   g.scale(SCALE, SCALE)
   g.setLineWidth(1 / SCALE)
 
   do
-    -- local bg = game.preloaded_images['bg.png']
-    -- g.draw(bg, 0, -SIZE * 2, 0, (self.grid.width * SIZE) / bg:getWidth())
     local bg = game.preloaded_images['bg_wide.png']
     g.draw(bg, -g.getWidth() / SCALE / 2 + SIZE * self.grid.width / 2, -SIZE * 2, 0, (g.getWidth() / SCALE) / bg:getWidth())
   end
@@ -116,7 +132,6 @@ function Main:draw()
     x = x - 1
     y = y - 1 - 2
     g.rectangle('line', x * D, y * D, D, D)
-    -- g.print(node.index, x * D, y * D)
   end
   g.pop()
 
@@ -125,6 +140,23 @@ function Main:draw()
   end
 
   self.current:draw()
+
+  do
+    g.push('all')
+    local x = self.grid.width * SIZE
+    local y = 0
+    local well_height = (self.grid.height - 2) * SIZE
+    local height_interval = well_height / #PERIODS
+    for i,period in ipairs(PERIODS) do
+      local red, green, blue = hsl2rgb(i / #PERIODS, 1, 0.5)
+      g.setColor(red, green, blue, 255 * 0.5)
+      g.rectangle('fill', x, y, SIZE, height_interval)
+      g.setColor(255, 255, 255, 255)
+      g.print(period, x, y + height_interval / 2)
+      y = y + height_interval
+    end
+    g.pop()
+  end
 
   for id,creature in pairs(self.creatures) do
     creature:draw()

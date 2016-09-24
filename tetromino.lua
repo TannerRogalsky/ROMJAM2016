@@ -162,8 +162,6 @@ function Tetromino:initialize(type, size, x, y)
   self.size = size
   self.orientation = 0
   self.grid = gridify(types[self.type].grid)
-  -- print(self.type)
-  -- print(unpack(polygonify(types[self.type].polygon, size)))
   self.polygon = HC.polygon(unpack(polygonify(types[self.type].polygon, size)))
   self.polygon:scale(0.9)
   self.polygon:move(x, y)
@@ -174,6 +172,7 @@ function Tetromino:initialize(type, size, x, y)
   self.escaped_creatures = {}
 
   self.x, self.y = x, y
+  self.speed = 0
 end
 
 function Tetromino:draw()
@@ -211,7 +210,6 @@ function Tetromino:move(dx, dy)
       and not self.escaped_creatures[id]
       and creature:collidesWith(self.polygon) then
       creature:gotoState('Caught', self)
-      creature:move(0, dy)
       self.caught_creatures[creature.id] = creature
     elseif creature:isInstanceOf(PlantCreature)
       and creature:collidesWith(self.polygon) then

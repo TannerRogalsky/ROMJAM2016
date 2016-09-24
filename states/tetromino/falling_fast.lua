@@ -6,12 +6,10 @@ function FallingFast:enteredState()
   assert(type(self.x) == 'number')
   assert(type(self.y) == 'number')
 
-  self.drop_timer = cron.every(0.08, function()
-    self:move(0, SIZE)
-  end)
-
   self.drop_time = 0.08
   self.drop_timer = 0
+
+  self.speed = SIZE / self.drop_time
 end
 
 function FallingFast:update(dt)
@@ -23,6 +21,8 @@ function FallingFast:update(dt)
 
     self:move(0, SIZE)
   end
+
+  self.speed = SIZE / self.drop_time
 end
 
 function FallingFast:keyreleased(key, scancode)
