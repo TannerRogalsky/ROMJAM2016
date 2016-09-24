@@ -3,6 +3,7 @@ local Game = class('Game', Base):include(Stateful)
 function Game:initialize(args)
   Base.initialize(self)
 
+  -- flags: disableAudio, debug
   for k,v in pairs(args) do
     self[k] = v
   end
