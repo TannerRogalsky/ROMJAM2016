@@ -67,6 +67,8 @@ function SoundManager:initialize()
 end
 
 function SoundManager:playSound(sfxName)
+  if game.disableAudio then return end
+
   local sound = self.sounds[sfxName]
 
   if sound then
