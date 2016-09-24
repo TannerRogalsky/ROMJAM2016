@@ -153,6 +153,7 @@ function Main:draw()
     h = h + creature.h
   end
 
+  g.push('all')
   do
     local w = g.getWidth() / 4
     local x = w * 3
@@ -160,9 +161,13 @@ function Main:draw()
     g.setColor(0, 0, 0, 125)
     g.rectangle('fill', x, 0, w, self.grid.height * SIZE)
     g.setColor(255, 255, 255)
-    g.print('Next:', x + w / 2, y)
-    g.draw(self.next.image, x, y)
+    x = x + w / 2
+    g.print('Next:', x, y)
+    g.scale(SCALE, SCALE)
+    local iw, ih = self.next.image:getDimensions()
+    renderTetromino(self.next, g.getWidth() / SCALE - iw / 2 / SCALE, ih / 2 / SCALE)
   end
+  g.pop()
 end
 
 function Main:mousepressed(x, y, button, isTouch)

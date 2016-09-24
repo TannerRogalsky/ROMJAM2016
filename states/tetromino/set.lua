@@ -1,4 +1,5 @@
 local Set = Tetromino:addState('Set')
+local renderTetromino = require('shared.render_tetromino')
 
 function Set:enteredState()
   local caughtFossil = false
@@ -29,23 +30,7 @@ function Set:enteredState()
 end
 
 function Set:draw()
-  local x, y = self.polygon:center()
-  local iw, ih = self.image:getDimensions()
-  local cell_width = iw / 40
-  local scale = self.size * cell_width / iw
-  if self.type == 'I' then
-    g.draw(self.image, x, y, self.orientation, scale, scale, iw * 0.4, ih * 0.5)
-  elseif self.type == 'T' then
-    g.draw(self.image, x, y, self.orientation, scale, scale, iw * 0.5, ih * 0.55)
-  elseif self.type == 'S' then
-    g.draw(self.image, x, y, self.orientation, scale, scale, iw * 0.375, ih * 0.5)
-  elseif self.type == 'J' then
-    g.draw(self.image, x, y, self.orientation, scale, scale, iw * 0.45, ih * 0.55)
-  elseif self.type == 'L' then
-    g.draw(self.image, x, y, self.orientation, scale, scale, iw * 0.55, ih * 0.55)
-  elseif self.type == 'O' then
-    g.draw(self.image, x, y, self.orientation, scale, scale, iw * 0.5, ih * 0.5)
-  end
+  renderTetromino(self, self.polygon:center())
 
   for id,creature in pairs(self.caught_creatures) do
     creature:draw()
